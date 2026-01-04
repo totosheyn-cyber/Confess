@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Anonymous Confessions</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff0f5;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 15px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+textarea, select, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #ff5c8a;
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.confession {
+    background: white;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.time {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.reactions a {
+    font-size: 22px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+</style>
+
+<body>
+
+<div class="emoji-bg">💔 😔 ❤️ 😌 🫶 🥺</div>
+
+<h1>Anonymous Confessions</h1>
+
+<form method="POST">
+    <textarea name="confession" placeholder="Write your feelings here..." required></textarea>
+    <br><br>
+
+    <label>Your emotion:</label>
+    <select name="emotion">
+        <option>💔</option>
+        <option>😔</option>
+        <option>❤️</option>
+        <option>😌</option>
+        <option>🥺</option>
+    </select>
+
+    <br><br>
+    <button type="submit">Confess</button>
+</form>
+
+<hr>
+
+{% for c in confessions %}
+<div class="card">
+    <h2>{{ c.emotion }}</h2>
+    <p>{{ c.text }}</p>
+    <small>{{ c.time }}</small>
+    <br><br>
+
+    {% for e, count in c.reactions.items() %}
+        <a href="/react/{{ loop.index0 }}/{{ e }}">{{ e }} {{ count }}</a>
+    {% endfor %}
+</div>
+{% endfor %}
+
+</body>
+</html>
